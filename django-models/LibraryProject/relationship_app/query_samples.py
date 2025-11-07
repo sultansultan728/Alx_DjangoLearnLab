@@ -4,9 +4,9 @@ def create_sample_data():
     author1 = Author.objects.create(name="J.K. Rowling")
     author2 = Author.objects.create(name="George R.R. Martin")
 
-    book1 = Book.objects.create(title="Harry Potter and the Philosopher's Stone", author=author1)
-    book2 = Book.objects.create(title="Harry Potter and the Chamber of Secrets", author=author1)
-    book3 = Book.objects.create(title="A Game of Thrones", author=author2)
+    book1 = Book.objects.filter(title="Harry Potter and the Philosopher's Stone", author=author1)
+    book2 = Book.objects.filter(title="Harry Potter and the Chamber of Secrets", author=author1)
+    book3 = Book.objects.filter(title="A Game of Thrones", author=author2)
 
     library1 = Library.objects.create(name="Central Library")
     library2 = Library.objects.create(name="Community Library")
