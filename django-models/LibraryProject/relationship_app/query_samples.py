@@ -22,7 +22,7 @@ def create_sample_data():
 
 def query_books_by_author(author_name):
     author = Author.objects.get(name=author_name)
-    books = author.books.all()
+    books = Books.objects.filter(author=author)
     print(f"📚 Books by {author.name}: {[book.title for book in books]}")
 
 
