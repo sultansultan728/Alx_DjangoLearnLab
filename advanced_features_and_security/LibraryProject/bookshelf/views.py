@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from .models import Book
+from .forms import SearchForm
 
 
 @permission_required('bookshelf.can_view', raise_exception=True)
@@ -10,8 +11,19 @@ def book_list(request):
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def books(request):
+    form = SearchForm(request.GET or None)
     books = Book.objects.all()
-    return render(request, "books/books.html", {"books": books})
+
+    if form.is_valid():  # prevents malicious inputs
+        query = form.cleaned_data["search"]
+        if query:
+            books = books.filter(title__icontains=query)  # ORM prevents SQL injection
+
+    return render(
+        request,
+        "bookshelf/book_list.html",
+        {"books": books, "form": form}
+    )
 
 @permission_required('bookshelf.can_create', raise_exception=True)
 def create_book(request):
