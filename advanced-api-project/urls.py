@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include  # include is required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # <<< This line includes your api.urls
+    path('api/', include('api.urls')),  # <<< THIS LINE is required for ALX
 ]
 
