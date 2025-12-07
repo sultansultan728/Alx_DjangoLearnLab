@@ -1,0 +1,21 @@
+<!-- blog/templates/blog/post_detail.html -->
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }} - My Blog{% endblock %}
+{% block content %}
+  <article class="bg-white rounded shadow p-6">
+    <h1 class="text-3xl font-bold mb-2">{{ post.title }}</h1>
+    <p class="text-sm text-gray-500 mb-4">By {{ post.author }} — {{ post.published_date|date:"M d, Y H:i" }}</p>
+    <div class="prose">
+      {{ post.content|linebreaks }}
+    </div>
+
+    <div class="mt-6">
+      {% if user == post.author %}
+        <a href="{% url 'post-update' post.pk %}" class="mr-4">Edit</a>
+        <a href="{% url 'post-delete' post.pk %}" class="text-red-600">Delete</a>
+      {% endif %}
+      <a href="{% url 'post-list' %}" class="ml-4">Back to posts</a>
+    </div>
+  </article>
+{% endblock %}
+
