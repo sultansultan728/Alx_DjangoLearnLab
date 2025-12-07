@@ -1,0 +1,6 @@
+def form_valid(self, form):
+    response = super().form_valid(form)   # saves Post
+    tags = form.cleaned_data.get('tags', [])
+    if tags is not None:
+        self.object.tags.set(tags)
+    return response

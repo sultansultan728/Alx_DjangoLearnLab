@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+{% block content %}
+  <h1>Search results for "{{ query }}"</h1>
+  {% if results %}
+    {% for post in results %}
+      <article> ... same snippet as post_list ... </article>
+    {% endfor %}
+  {% else %}
+    <p>No posts found.</p>
+  {% endif %}
+{% endblock %}
+
