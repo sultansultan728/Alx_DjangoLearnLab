@@ -1,4 +1,16 @@
-<!-- blog/templates/blog/post_form.html -->
+from django import forms
+from .models import Post
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']  # Ensure "tags" is included
+        widgets = {
+            'tags': TagWidget(),
+        }
+
+
+
 {% extends "blog/base.html" %}
 {% block title %}{% if form.instance.pk %}Edit{% else %}Create{% endif %} Post{% endblock %}
 {% block content %}

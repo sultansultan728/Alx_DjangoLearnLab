@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Post
 from .models import Comment
+from taggit.forms import TagWidget
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -19,6 +20,7 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'border rounded px-3 py-2 w-full'}),
             'content': forms.Textarea(attrs={'class': 'border rounded px-3 py-2 w-full', 'rows': 8}),
+            'tags': TagWidget(),
         }
 
 class UserRegisterForm(UserCreationForm):
