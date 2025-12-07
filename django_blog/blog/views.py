@@ -118,4 +118,15 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse("post-detail", kwargs={"pk": self.kwargs["post_id"]})
+def search_posts(request):
+    query = request.GET.get("q")
+    results = []
 
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+
+    return render(request, "blog/search_results.html", {"results": results, "query": query})
