@@ -34,4 +34,29 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+class PostForm(forms.ModelForm):
+    tags = forms.CharField(
+        required=False,
+        help_text="Comma-separated tags (e.g. django, tutorial)",
+        widget=forms.TextInput(attrs={'placeholder': 'tag1, tag2'})
+    )
 
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+
+    def clean_tags(self):
+        raw = self.cleaned_data.get('tags', '')
+        # normalize
+        tags = [t.strip() for t in raw.split(',') if t.strip()]
+        return tags
+
+    def save(self, commit=True):
+        tags = self.cleaned_data.pop('tags', [])
+        post = super().save(commit=False)
+        if commit:
+            post.save()
+            post.tags.set(tags)   
+        else:
+            pass
+        return post
