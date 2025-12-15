@@ -25,11 +25,40 @@ SECRET_KEY = 'django-insecure-)w_fb$$t!-e0ftk(+9cf+*m^6$z!)s+de-$(6lu9=g6rf_xs*4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS =  ['yourdomain.com', 'www.yourdomain.com', 'localhost']
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Application definition
+
+# SECURITY
+DEBUG = False
+ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', 'herokuapp.com']  # production domains
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # if using HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Database (example for PostgreSQL)
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(default='postgres://USER:PASSWORD@HOST:PORT/DB_NAME')
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+}
+
+# Static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+
+# Media files
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -53,7 +82,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
